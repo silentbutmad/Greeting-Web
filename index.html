@@ -71,6 +71,7 @@
         text-align: center;
         z-index: 999;
         transition: transform 0.3s ease-in-out;
+       
         max-width: 90%;
         max-height: 90%;
         overflow-y: auto;
@@ -109,6 +110,14 @@
         font-size: clamp(0.8rem, 3vw, 0.9rem);
         color: #7a4b21;
         margin-top: 8px;
+    }
+    @media (max-width: 600px) {
+    #popup {
+        max-width: 85%;
+        padding: 15px;
+        font-size: 1em;
+        line-height: 1.5em;
+       }
     }
 </style>
 </head>
