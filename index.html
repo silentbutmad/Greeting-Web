@@ -11,21 +11,23 @@
         text-align: center;
         padding: 15px;
         color: #4a1a00;
+        margin: 0;
         overflow-x: hidden;
     }
     h1 {
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 5vw, 2rem);
         color: #d84315;
         margin-top: 20px;
         animation: fadeInDown 1s ease-in-out;
     }
     p {
-        font-size: 1.2rem;
+        font-size: clamp(1rem, 4vw, 1.2rem);
         margin-bottom: 20px;
         color: #6d4c41;
+        padding: 0 10px;
     }
     .rakhi-img {
-        width: 160px;
+        width: min(160px, 50%);
         margin: 15px auto;
         display: block;
         animation: spin 6s linear infinite;
@@ -41,9 +43,11 @@
         cursor: pointer;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         transition: transform 0.2s ease, background 0.3s ease;
+        width: 90%;
+        max-width: 300px;
     }
     button:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
         background: linear-gradient(135deg, #e65100, #ef6c00);
     }
     @keyframes spin {
@@ -68,13 +72,17 @@
         z-index: 999;
         transition: transform 0.3s ease-in-out;
         max-width: 90%;
+        max-height: 90%;
+        overflow-y: auto;
     }
     #popup.show {
         transform: translate(-50%, -50%) scale(1);
     }
     #popup img {
-        width: 100px;
-        margin: 10px;
+        width: 100%;
+        max-width: 200px;
+        margin: 10px auto;
+        display: block;
     }
     .gcard {
         background: linear-gradient(180deg, rgba(255,243,224,.95), rgba(255,236,209,.95));
@@ -82,23 +90,23 @@
         padding: 16px;
         text-align: left;
         color: #3e2b1f;
+        font-size: clamp(0.9rem, 3vw, 1.05rem);
+        line-height: 1.5;
     }
     .gcard .title {
         text-align: center;
         font-weight: 700;
         color: #d84315;
-        font-size: 1.2rem;
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
         margin-bottom: 8px;
     }
     .gcard .poem {
-        font-size: 1.05rem;
-        line-height: 1.6;
         white-space: pre-line;
         margin-bottom: 10px;
     }
     .gcard .credit {
         text-align: right;
-        font-size: .9rem;
+        font-size: clamp(0.8rem, 3vw, 0.9rem);
         color: #7a4b21;
         margin-top: 8px;
     }
@@ -125,33 +133,23 @@
 </div>
 
 <!-- Rakhi Song -->
-<audio id="bgMusic"  loop>
+<audio id="bgMusic" loop>
     <source src="Kachedhago.mp3" type="audio/mp3">
 </audio>
 
 <script>
-    
 document.body.addEventListener("click", function playMusicOnce() {
     document.getElementById("bgMusic").play();
     document.body.removeEventListener("click", playMusicOnce);
 });
 function showPopup(content, images = [], links = [], isHTML = false) {
     let popupContent = document.getElementById("popupContent");
-
-    if (isHTML) {
-        popupContent.innerHTML = content;
-    } else {
-        popupContent.innerHTML = `<p>${content}</p>`;
-    }
-
-    // Add images if provided
+    popupContent.innerHTML = isHTML ? content : `<p>${content}</p>`;
     images.forEach(img => {
         let imageElement = document.createElement("img");
         imageElement.src = img;
         popupContent.appendChild(imageElement);
     });
-
-    // Add links if provided
     links.forEach(link => {
         let linkElement = document.createElement("a");
         linkElement.href = link.url;
@@ -159,10 +157,8 @@ function showPopup(content, images = [], links = [], isHTML = false) {
         linkElement.innerText = link.text;
         popupContent.appendChild(linkElement);
     });
-
     document.getElementById("popup").classList.add("show");
 }
-
 function showGreetingCard(){
     const poem = `माझी बहिण constant, कायम तशीच राहते,
 Sister माझी function, प्रत्येक वेळी चालते.
@@ -181,10 +177,8 @@ Sister माझी logic, प्रवाह नेहमी राखते,
 
 जीवनाच्या code मध्ये main method तीच असते,
 compile होतं आयुष्य, कारण बहिण सोबत असते.`;
-
     const html = `
       <div class="gcard">
-        
         <div class="title">राखीच्या हार्दिक शुभेच्छा</div>
         <div class="poem">${poem.replace(/\n/g,'<br>')}</div>
         <div class="credit">by Mohit Mahajan</div>
@@ -192,7 +186,6 @@ compile होतं आयुष्य, कारण बहिण सोबत 
     `;
     showPopup(html, [], [], true);
 }
-
 function closePopup() {
     document.getElementById("popup").classList.remove("show");
 }
